@@ -4,20 +4,11 @@ name := "sbt-appengine"
 
 organization := "com.eed3si9n"
 
-posterousNotesVersion := "0.3-SNAPSHOT"
-
-version <<= (sbtVersion, posterousNotesVersion) { (sv, nv) => "sbt" + sv + "_" + nv }
+version <<= (sbtVersion) { (sv) => "sbt" + sv + "_0.3-SNAPSHOT" }
 
 libraryDependencies <+= (sbtVersion) { (sv) => "com.github.siasia" %% "xsbt-web-plugin" % ("0.1.0-" + sv) }
 
 scalacOptions := Seq("-deprecation", "-unchecked")
-
-publishTo <<= version { (v: String) =>
-  if(v endsWith "-SNAPSHOT") Some("Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/snapshots/")
-  else Some("Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/")
-}
-
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 publishArtifact in (Compile, packageBin) := true
 
